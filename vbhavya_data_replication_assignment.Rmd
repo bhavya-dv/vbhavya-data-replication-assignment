@@ -1,0 +1,109 @@
+---
+title: "vbhavya_data_replication"
+author: "Bhavya Deepti Vadavalli"
+date: "2023-12-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Introduction:
+### About Hunter-Gatherer Social Networks: 
+
+# Goals of the Project:
+
+# Methodology: 
+## Horton Analysis:
+
+## Binford Dataset: 
+
+
+### Managing the Data:
+
+Upon loading the data set, we see that this is a BIG data set, with a lot of information. We need to first figure out which information is useful to us. In this paper, the authors analyse group sizes at 6 different levels. Which columns contain the relevant information for each Horton order? 
+
+It looks like: 
+
+1. This data set does not contain information at the level of individuals (i.e. Horton order 1)
+2. The column titled "famsz" gives us the group sizes at the scale of a family. This corresponds to Horton order 2. 
+3. The column titled "group1" gives us the group sizes at the scale of a "dispersed group". This corresponds to Horton order 3.
+4. The column titled "group2" gives us the group sizes at the scale of a "aggregated group". This corresponds to Horton order 4.
+5. The column titled "group3" gives us the group sizes at the scale of a "periodic aggregations". This corresponds to Horton order 5.
+6. The column titled "tlpop" gives us the total population sizes for each HG group. This corresponds to Horton order 6. 
+
+Let us load in the data, clean the data (if required) and check our sample sizes for each Horton order so that we are good to start replicating tables or figures. 
+
+```{r data_cleaning}
+library(curl)
+
+dat <- read.csv(curl("https://raw.githubusercontent.com/bhavya-dv/vbhavya-data-replication-assignment/main/LRB.csv"))
+head(dat) #loading in the Binford dataset
+
+length(dat) #There are 507 data points. 
+
+# But this means that there are multiple columns of the same group.  
+# Does this matter for our analysis? Yes, because we will be using the geometric mean to summarize the data, rather than arithmetic mean, we must make sure that are sample sizes and values are correct. But let's address that problem separately for each Horton Order
+
+
+# Creating a data frame with only total population sizes (HO = 6): 
+population <- dat$tlpop
+length(population) # our N matches the N in Table 1 of Hamilton et al., 2007!
+
+# Creating a data frame with only "group3" (HO = 5): 
+gr3 <- dat$group3
+gr3 <- na.omit(gr3) 
+length(gr3) #interesting, we are getting an N of 216, but Hamilton et al have an N of 213. Are there any duplicates? We will proceed with this. It is possible that Hamilton et al., 2007 removed 3 data points without mentioning it. We don't know. There is no documentation about this either. 
+
+# Creating a data frame with only "group2" (HO = 4): 
+gr2 <- dat$group2
+gr2 <- na.omit(gr2) 
+length(gr2) #We are getting the same N as that in table 1 of Hamilton et al., 2007
+ 
+# Creating a data frame with only "group1" (HO = 3): 
+gr1 <- dat$group1
+gr1 <- na.omit(gr1) 
+length(gr1) #We are getting the same N as that in table 1 of Hamilton et al., 2007
+
+# Creating a data frame with only "famsz" (HO = 2): 
+family <- dat$famsz
+family <- na.omit(family) 
+length(family) # 136, there are some non unique values
+family <- unique(family) 
+length(family) #Now, We are getting the same n=102 which is not the same as that of table 1 of Hamilton et al., 2007, but we will proceed with this nonetheless.
+
+all_groups_dat <- list(family,gr1,gr2,gr3,population) #a list comprising of all the required data.frames
+```
+
+### Table 1 
+
+```{r table1.1}
+#creating an empty table where values can be input
+table1 <- data.frame(matrix(NA, nrow = 6, ncol = 8))
+colnames(table1) <- c("organisational level group size (g)", "Horton order (ω)", "sample size (n)", "ln mean <ln g>", "s.d", "geometric mean (g-bar)", "95% CI - Lower", "95% CI - upper")
+table1[,1] <- c("individual", "family","dispersed group","aggregated group","periodic aggregation","poopulation size")
+table1[,2] <- 1:6
+table1[,3] <- c("NA", 102,227,297,216,339)
+
+#Okay, now we can start filling in this table with some summary statistics!
+
+#filling in ln means, sd and geometric means
+for (i in 1:5) {
+  ln_mean <- mean(log(all_groups_dat[[i]]))
+  table1[i+1,4] <- ln_mean
+  table1[1,4] <- 0
+  
+  sd <- sd(log(all_groups_dat[[i]]))
+  table1[i+1,5] <- sd
+  table1[1,5] <- NA
+  
+  geom_mean <- exp(ln_mean)
+  table1[i+1,6] <- geom_mean
+  table1[1,5] <- 1
+}
+
+table1 #Here, we see that the values are a little bit different that the original paper. But they don't seem different enough to warrant concern, yet. 
+
+```
+
+### Assumptions:

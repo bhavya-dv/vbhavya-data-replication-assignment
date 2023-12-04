@@ -100,9 +100,32 @@ for (i in 1:5) {
   geom_mean <- exp(ln_mean)
   table1[i+1,6] <- geom_mean
   table1[1,5] <- 1
-}
+} 
 
 table1 #Here, we see that the values are a little bit different that the original paper. But they don't seem different enough to warrant concern, yet. 
+
+#Bootstrapping For CIs (ln_mean) 
+for (i in 1:5) {
+  ln_dat <- log(all_groups_dat[[i]]) #We will bootstrap with this data 
+  ln_mean <- mean(ln_dat)
+  boots_ln_dat = ln_dat[sample(1:length(ln_dat), 1000, replace = TRUE)] #resampling with replacement. Creating 1000 samples
+  mean_boots <- exp(mean(boots_ln_dat)) #geometric mean for bootsrapped values
+  sd_boots <- sd(boots_ln_dat) #sd for bootsrapped values
+
+  #lower - 95% CI
+  lower_CI <- mean_boots - qnorm(1 - 0.05/2) * sd_boots #lower CI
+  lower_CI
+  table1[i+1,7] <- lower_CI
+  table1[1,7] <- NA
+  
+  #upper - 95% CI
+  upper_CI <- mean_boots + qnorm(1 - 0.05/2) * sd_boots #upper CI
+  upper_CI
+  table1[i+1,8] <- upper_CI
+  table1[1,8] <- NA
+}
+
+table1 #The CI values actually look quite different from the vaues in the published table
 
 ```
 

@@ -414,470 +414,10 @@ replicating tables or figures.</p>
 <pre><code>## Warning: package &#39;curl&#39; was built under R version 4.3.1</code></pre>
 <pre><code>## Using libcurl 8.3.0 with Schannel</code></pre>
 <pre class="r"><code>dat &lt;- read.csv(curl(&quot;https://raw.githubusercontent.com/bhavya-dv/vbhavya-data-replication-assignment/main/LRB.csv&quot;))
-head(dat) #loading in the Binford dataset</code></pre>
-<pre><code>##         X seq339 groupno              name year
-## 1   Punan      1       1    Punan_(Borneo) 1970
-## 2   Batek      2       2 Batek_Phillipines 1968
-## 3    Kubu      3       3      Kubu-(Ridan) 1900
-## 4 Shompen      4       4           Shompen 1989
-## 5    Onge      5       5              Onge 1952
-## 6   Jarwa      6       6             Jarwa 1906
-##                                                       ethref eanumber    eafolk
-## 1                     Kedit 1982 Harrison 1949 Avadhani 1975     1243 PUNAN . .
-## 2                                    Eder 1987 Cadelina 1982       NA      &lt;NA&gt;
-## 3                                                       &lt;NA&gt;     1114 KUBU. . .
-## 4                                                 Rivzi 1990       NA      &lt;NA&gt;
-## 5 Heine-Geldern Hoehn-Gerlachstein 1958 Sen 1962 Cooper 1991       NA      &lt;NA&gt;
-## 6                           Temple 1903 Radcliffe-Brown 1948       NA      &lt;NA&gt;
-##   wnainumb wnaisociety badlangiso wldsec secno wc.area   wcont       wlocation
-## 1       NA        &lt;NA&gt;          0   asia     a    ASIA EURASIA       Indonesia
-## 2       NA        &lt;NA&gt;          0   asia     a    ASIA EURASIA     Philippines
-## 3       NA        &lt;NA&gt;          0   asia     a    ASIA EURASIA       Indonesia
-## 4       NA        &lt;NA&gt;          0   asia     a    ASIA   INDIA Nicobar Islands
-## 5       NA        &lt;NA&gt;          0   asia     a    ASIA   INDIA Andaman Islands
-## 6       NA        &lt;NA&gt;          0   asia     a    ASIA   INDIA Andaman Islands
-##   longitude latitude vegclass vegnu soil         setting     dposit headwat
-## 1    114.00     3.00        1     1    U Stream or river 0.09047619    19.0
-## 2    119.11    10.00        1     1    H Stream or river 0.14285714     1.0
-## 3    102.69    -3.04        1     1    U Stream or river 0.03703704     5.0
-## 4     93.77     7.00        1     1    O Stream or river 0.05000000     0.5
-## 5     92.47    10.70        1     1    O         Coastal 0.60000000     6.0
-## 6     92.37    12.19        1     1    O         Coastal 0.57142857     4.0
-##   drain  h10 h25  h50 l10 l25 l50 maxrange latgroup       et     cmat   mcm
-## 1   210  200 800 2370  40  20   1     2369        1 25.26447 26.44917 26.00
-## 2     7  929 990 1080 450   1   1     1079        1 25.19110 27.64917 26.89
-## 3   135   80 220 2467  50  40  30     2437        1 24.38978 26.31000 25.50
-## 4    10 2093   1    1   1   1   1     2092        1 24.32727 27.84083 26.70
-## 5    10   40 250  400   1   1   1      399        1 24.27512 26.79250 26.04
-## 6     7   20  70  200   1   1   1      199        1 23.67245 26.59083 25.36
-##     mwm     temp    mtemp clim      crr   rhigh    rlow    reven     mrain
-## 1 26.81 57.56826 98.87202    7 3444.319 361.016 211.582 1.257779 58.607375
-## 2 28.78 53.65669 97.43833    7 2546.758 445.262  26.035 2.098018  5.847119
-## 3 26.89 57.82983 98.06649    7 3138.130 378.420 141.986 1.447053 37.520744
-## 4 29.70 52.38121 95.98394    7 3189.800 485.800  49.100 1.827575 10.107040
-## 5 28.29 55.05272 96.93000    7 3081.841 521.716  28.702 2.031445  5.501461
-## 6 27.74 56.45785 96.72807    7 2301.479 388.747  12.954 2.026942  3.332244
-##   avwat    sdtemp    sdrain rrcorr rrcorr2 rrcorr3 season   medstab growc
-## 1     8 0.2478070  47.42064      7    11.5     4.5      4 0.7077531    12
-## 2     6 0.5961766 151.89376      3     7.5     4.5      3 0.4856017    12
-## 3     8 0.3964387  86.16820      7    11.5     4.5      4 1.1133912    12
-## 4     8 1.0897077 128.25116      6    10.5     4.5      4 1.3171672    12
-## 5     7 0.6907720 176.46389      2     6.5     4.5      3 0.1742579    12
-## 6     7 0.6780246 158.44308      5     9.5     4.5      4 1.1947453    12
-##        pet       ae watret     watd snowac    ptoae      hirx     ptowatd
-## 1 1637.663 1637.663 174.52   0.0000      0 1.000000 0.4754679 1637.663047
-## 2 1778.693 1445.646  84.98 333.0479      0 1.230380 0.6984148    5.340654
-## 3 1609.520 1609.520 174.52   0.0000      0 1.000000 0.5128915 1609.520309
-## 4 1794.469 1794.469 306.71   0.0000      0 1.000000 0.5625648 1794.469201
-## 5 1679.342 1566.250 259.95 113.0917      0 1.072205 0.5449151   14.849379
-## 6 1650.562 1414.139 196.74 236.4233      0 1.167185 0.7171746    6.981387
-##   watdgrc   defper   perwret   perwltg wltgrc     nagp    lnagp     bio5
-## 1       0  0.00000 1.0000000 0.0010000      0 4738.193 3.675613 56660.51
-## 2       3 25.00000 0.6666667 0.2500000      3 3852.145 3.585703 30378.80
-## 3       0  0.00000 1.0000000 0.0010000      0 4603.797 3.663116 56157.12
-## 4       0  0.00000 1.0000000 0.0010000      0 5514.851 3.741534 59274.80
-## 5       3 25.00000 0.8333333 0.0010000      0 4400.169 3.643469 57386.48
-## 6       5 41.66667 0.8333333 0.1666667      2 3713.787 3.569817 29082.34
-##      lbio5      bar5  lexprey   sucstab2 tlpop   area density group1 group2
-## 1 4.753281 11.958254 1.888509 0.01823945   349   29.6  11.800   22.0   30.0
-## 2 4.482571  7.886203 2.140217 8.79404012   424    9.8  43.000   19.0   58.0
-## 3 4.749405 12.198002 1.926182 0.02048818 11800 1282.6   9.200   12.0     NA
-## 4 4.772870 10.748215 1.568851 0.02553402   342    8.6  39.537   19.3   31.0
-## 5 4.758810 13.041881 1.818471 0.02875158   393    9.8  40.100   10.0   23.0
-## 6 4.463629  7.830914 2.392007 5.26152410   255    5.7  44.650    8.6   25.8
-##   group3      lden lnpop  diasz subpop  wsubpop hunting gatherin fishing subsp
-## 1     62 1.0722499 5.855 232.67      x  suspect      30       65       5     2
-## 2     NA 1.6335694 6.050 282.67      x  suspect      30       65       5     2
-## 3     NA 0.9642596 9.376 944.00      x  suspect      25       70       5     2
-## 4     NA 1.5967070 5.835 228.00      n HGF only      15       50      35     2
-## 5     70 1.6032527 5.974 262.00      n HGF only      20       35      45     3
-## 6     65 1.6504047 5.541 170.00      n HGF only      20       50      30     2
-##   store   subsp.1 qtstor subdiv2 sudivord noantrap noantrapgrp hunt gath fish
-## 1     1 Gathering      1   69.86        3       14           4    4    3    3
-## 2     2 Gathering      2   69.86        3       NA          NA    5    2    2
-## 3     2 Gathering      2   66.71        3        5           2    5    2    5
-## 4     1 Gathering      1   82.44        4       NA          NA    4    2    4
-## 5     1  Aquatics      1   87.42        5       NA          NA    5    2    2
-## 6     1 Gathering      1   84.72        5       NA          NA    5    2    2
-##   mdivlab housex forcol grppat nomov dismov    dspmov kspmov lkmov lkspmov
-## 1    57.5      2      1      1    45    240  5.333333     NA  2.59      NA
-## 2    47.5      5      2      2     6     50  8.333333  13.41  1.91    1.13
-## 3    47.5      1      1      1     7    140 20.000000   8.66  2.35    0.94
-## 4    50.0      2      1      1    NA     NA        NA     NA    NA      NA
-## 5    40.0      5      1      1     8     40  5.000000   8.05  1.81    0.91
-## 6    40.0      5      1      1     9     59  6.555556  10.55  1.98    1.02
-##     kmov   mhs famsz hhtype commun comstfun famhous packinx lpackinx packord
-## 1 386.16  6.08  3.61     Fn      4        1    1.68    1.30     0.11       3
-## 2  80.45  5.06  3.94     Fn      2        1    1.30    4.73     0.67       3
-## 3 225.26    NA    NA   &lt;NA&gt;      5        1      NA    1.01     0.00       3
-## 4     NA  3.05  3.62      N      3        1    0.84    4.35     0.64       3
-## 5  64.36 26.00  3.10      M      1        1    8.50    4.41     0.64       3
-## 6  94.93 32.00    NA      M      1        1      NA    4.91     0.69       3
-##   packing systate3recod systate3 huntfil2 spacing house80 house81 house82
-## 1       2             3        5        1       1       4       4       5
-## 2       2             2        2        1      NA       4       2       1
-## 3       2             3        3        1      NA       4       3       5
-## 4       2             2        2        1      NA       4       3       1
-## 5       2             4        4        1       1       2       2       2
-## 6       2             4        4        1      NA       2       2       2
-##   house83 house84 house85 house86 house87 house88 house89 sed mobpat mobp2
-## 1       1       1       4       2       1       1       1   1      1     1
-## 2       1       1      NA      NA      NA      NA      NA   3      4     4
-## 3       4       1       4       2       2       1       1   3      1     1
-## 4       5       1       4       2       2       1       1   1      1     1
-## 5       2       1       4       2       1       1       1   3      3     3
-## 6       2       1       4       2       1       1       1   2      3     3
-##   sz1fam szjoint szcomu szmean hhtyp1 g2mhs prevalue mhsset mhset2 predg2mh
-## 1     NA    3.42     NA   3.42      2  4.93  7.98448      2      3     6.35
-## 2     NA      NA     NA     NA      2 11.46  4.20590      5      1     4.21
-## 3     NA      NA     NA     NA     NA    NA       NA     NA     NA       NA
-## 4   2.51      NA     NA   2.51      5 10.16  3.75080      5      1     3.75
-## 5   1.81      NA  12.59   1.81      4  0.88  6.61206      1      2       NA
-## 6   1.52    7.54  16.84   1.52      4  0.81  7.16103      1      2       NA
-##   g2famsz g1famsz g1mhs g2g1 g2mhset2 g2mhset3 g2basord    hougrp2 money occspe
-## 1    8.31    6.09  3.62 1.36        1        1        3  4.9342105     1      1
-## 2   14.91    4.88  3.75 3.05        5        3        6 11.4624506     1      1
-## 3      NA      NA    NA   NA        9       NA       NA         NA     1      1
-## 4    8.56    5.33  6.33 1.61        6        3        4 10.1639344     1      1
-## 5    7.52    3.27  0.38 2.30        2        4        3  0.8846154     1      1
-## 6      NA      NA  0.27 3.00        2        4        3  0.8062500     1      1
-##   owners indtrd indtfo grptrd orgfair excorg perogat leader polyscal class
-## 1      1      3      2      1       1      1       2      1        2     1
-## 2      4      2      1      2       1      3       1      1        2     1
-## 3      1      3     NA      2       1      3       1      1        2     1
-## 4      2      2      2      2       1      1       1      1        2     1
-## 5      1      5      3      2       1      1       1      1        2     1
-## 6      1      5      3      2       1      1       1      1        2     1
-##   polpos intform headm shaman intcon intres gpgpcon gpgpres war1 conpos enemy
-## 1      3       1     3      1      2      2       1       1    1      1     1
-## 2      3       1     2      2      3      2       1       2    1      1     1
-## 3      3       1     2     NA      2      1       2       1    2      2    NA
-## 4      3       1     2      1      2      1       2       1    2      1    NA
-## 5      1       1     2      1      2      1       2       1    2      1     3
-## 6      1       1     2      1      1      1       3       1    3      3     3
-##   prison slave warlead boyseg38 initm initexm initf dom1 dom2 deadav death
-## 1      1     1       2        1     1       1     1    3    3      2     1
-## 2      1     1      NA        1     2       2     2    4    4      1     3
-## 3     NA     1       2       NA    NA      NA    NA   NA   NA     NA     1
-## 4     NA     1       2        1     1       1     1   NA   NA      1     1
-## 5      1     1       2        3     3       2     3    4    4      2     3
-## 6      1     1       2        3     3       2     3    4    4      2     1
-##   discomp discomp2 disloc bodyt dispc disdiff dritual ritscal ritfocus caudeath
-## 1       1        1      2     1     1       2       2       2       NA        1
-## 2      NA       NA      3     1     1       1       2      NA       NA        2
-## 3      NA       NA     NA    NA     1       2       1      NA       NA       NA
-## 4       1        1      1     1     1       2       3       2       NA        2
-## 5       2        2      2     2     1       2       2       2        1        2
-## 6       2        2      1     2     1       2       2       2       NA        2
-##   divmor usebody gcont gdist gfur revres agem agef agedif polyg polygrecod
-## 1      1       1     1     1    3      1   NA   NA     NA     4          4
-## 2     NA      NA    NA    NA   NA     NA   20   15      5     5          5
-## 3     NA      NA    NA    NA   NA     NA   NA   NA     NA    NA         NA
-## 4      1       1     1     1    3     NA   18   15      3     7          7
-## 5      1       3     1     1    3      1   NA   NA     NA    NA          0
-## 6      1       3     1     1    1      1   NA   NA     NA    NA          0
-##   wx.polygny agecom res1 fres1 fres2 levira sorora kinmar marsel marrycer
-## 1          4      1    2     1     1      1      1      1      2        1
-## 2          5      1    3     2     4      1      1      1      3        2
-## 3         NA      1    3     2     4     NA     NA      1      2        3
-## 4          7      1    1     1     1      1      1      1      4        2
-## 5          0      1    1     3     3      2      2      1      3        2
-## 6          0      1    1     3     3      2      2      1      2        2
-##   polygn mardir marprop marinv divorce kincon kinstr kinbia1 augment augmen2
-## 1      2      2       2      3       3      1      1       1       5       2
-## 2      2      2       2      3       2      1      1       1       3       2
-## 3     NA      3       1      2       1      1      2       1      NA       1
-## 4      3      3       3      3       2      1      2       1      NA       2
-## 5      1      1       1      1       1      1      2       1       7       2
-## 6      1      1       1      1       1      1      1       1       7       2
-##   sodal kinder kinbia2 elabor elabor2 elabor3 elabor4 diffocus adjun adjun2
-## 1     1      1       1      1       1       1       1        1     1      1
-## 2     1      1       1      1       1       1       1        1     1      1
-## 3     4      1       2      3       4       2       2        2     4      4
-## 4     1      1       1      1      NA      NA      NA       NA     1      1
-## 5     1      1       1      1       1       1       1        1     1      1
-## 6     1      1       1      1       1       1       1        1     1      1
-##   adjun3 adjun4 kinexo dkinex nenept nenext kinterm2 aunt gpaterm ggpater
-## 1      1      1      3      1      2      3        1    1       1       1
-## 2      1      1      2      1      3      1        1    1       1       1
-## 3     NA      2      3      1      1      4        3   NA      NA       2
-## 4     NA      1      3      1      1      3        3    1       4       1
-## 5      1      1      1      1      3      1        1    1      NA       1
-## 6      1      1      1      1      3      1        1    1      NA       1
-##   minlaw male.mm female.mm male.kg female.kg   termhnt   termgath    termh2
-## 1      1  1532.5      1468    52.9     37.90 0.8023504 0.19764957 0.1942694
-## 2      2  1531.0      1432    46.5     40.60 0.1070804 0.89291964 0.3610388
-## 3      2  1578.0      1462      NA        NA 0.7453638 0.25427960 0.2090438
-## 4      2  1594.5      1480    57.9     47.55 0.9494048 0.05059524 0.0896402
-## 5      2      NA        NA      NA        NA 0.7934936 0.20650636 0.1683633
-## 6      2      NA        NA      NA        NA 0.1916174 0.80838263 0.6239424
-##        termg2     termd2 subspx nicheffg nicheffh   nicheff prindx    cvtemp
-## 1 0.055417812 0.24968717      u   138.20    15.71  42.02279   42.0 0.9369182
-## 2 3.010345417 3.37138424      g     9.28    35.73  12.75472   12.8 2.1562190
-## 3 0.071344424 0.28038824      u    90.32    11.00  32.81027   32.8 1.5067985
-## 4 0.005119258 0.09475946      u  3876.18    61.97 392.23214  392.2 3.9140628
-## 5 0.043790680 0.21215395      u   320.43    47.65 189.06176  189.1 2.5782289
-## 6 3.198007190 3.82194957      g     6.98    11.78  11.28722   11.3 2.5498435
-##     elev     lbar5    lcoklm  lcvtemp      lptoae     lptorun lsnowac
-## 1  120.0 1.0776678 2.2304745 3.477257 0.004321374 -0.03545278      -2
-## 2  689.5 0.8968680 1.1464381 3.477433 0.093554772  0.16044636      -2
-## 3   65.0 1.0862887 2.2430629 3.477339 0.004321374  0.07868747      -2
-## 4 1047.0 1.0313364 0.6031444 3.477688 0.004321374  0.07431698      -2
-## 5   20.5 1.1153402 0.6998377 3.477494 0.034309698  0.03152186      -2
-## 6   10.5 0.8938124 0.4785665 3.477490 0.070844827  0.21679472      -2
-##      lwaccess rungrc      wret    ptorun   ldefper  lgather trange watrgrc
-## 1  0.01241537     12 174.52000 0.9116101 -2.000000 1.812980   0.81      12
-## 2 -0.10790540      9  84.98223 1.4369261  1.398114 1.812980   1.89       8
-## 3  0.01241537     12 174.52000 1.1886364 -2.000000 1.845160   1.39      12
-## 4  0.01241537     12 306.71439 1.1766345 -2.000000 1.699057   3.00      12
-## 5  0.01241537      9 259.94803 1.0652807  1.398114 1.544192   2.25      10
-## 6 -0.06382149      7 196.74058 1.6373835  1.619893 1.699057   2.38      10
-##   lmeanelev  lwatrgrc pgrow  lrunoff    lsstab2   waccess  lfishing hg142
-## 1  2.757277 1.0795430    36 3.254418 -1.5491437 1.0190000 0.6998377     1
-## 2  2.759801 0.9036325    20 3.092670  0.9446820 0.7700000 0.6998377     1
-## 3  2.682305 1.0795430    32 3.131651 -1.5158686 1.0190000 0.6998377     1
-## 4  2.543667 1.0795430    27 3.183297 -1.4493557 1.0190000 1.5441921     0
-## 5  2.062620 1.0004341    24 3.197678 -1.4117106 1.0190000 1.6533090     1
-## 6  1.688805 1.0004341    20 3.003486  0.7219362 0.8533333 1.4772660     1
-##   setn11 setn12 setn13 setn21 setn22 setn23 pathogen numfam numg1 numg2 numg3
-## 1      0      0      0      0      0      0       16   96.7  15.9  11.6   5.6
-## 2      0      0      0      0      0      0       15  109.0  22.3   7.3    NA
-## 3      0      0      0      0      0      0       16     NA 983.3    NA    NA
-## 4      0      1      0      0      0      0       15   94.5  17.7  11.0    NA
-## 5      0      0      1      0      0      0       14  128.4  39.3  17.1   5.6
-## 6      0      1      0      0      0      0       14     NA  29.7   9.9   3.9
-##   branchrat      reg iso639.3          lang
-## 1      2.97 oldWorld      pna Penan Bahbiau
-## 2      3.36 oldWorld      btq         Batek
-## 3      6.74 oldWorld      kvb          Kubu
-## 4      3.14 oldWorld      sii     Shom Peng
-## 5      3.14 oldWorld      oon          Onge
-## 6      2.97 oldWorld      akj       Akajeru
-##                                                             phyl alt    alt.sd
-## 1    Austronesian, Malayo-Polynesian, North Borneo, Rejang-Sajau 242 203.43262
-## 2       Austro-asiatic, Mon-khmer, Aslian, North Aslian, Eastern 167 287.61645
-## 3 Austronesian, Malayo-polynesian, Malayic, Malayan, Local Malay 295 319.82061
-## 4                  Austro-asiatic, Mon-khmer, Nicobar, Shom Peng  89  90.67419
-## 5                                   Andamanese, South Andamanese 152  43.72689
-## 6                         Andamanese, Great Andamanese, Northern  38  33.13293
-##   alt.flag   meanalt     sdalt bio.1  bio.1.sd bio.1.flag bio.2  bio.2.sd
-## 1        0 243.51882 118.13171   256 10.714149          0    76 0.4286954
-## 2        0 376.42804 245.79043   265 15.339885          0    77 0.5196415
-## 3        0 292.42547 270.69486   253 18.110329          0    94 1.7690966
-## 4        0  93.26433  53.89325   269  4.868299          0    49 0.5238587
-## 5        0  76.12973  44.96267   262  2.216072          0    58 0.4459786
-## 6        0  38.70612  36.14491   266  1.869635          0    58 0.6617097
-##   bio.2.flag bio.3  bio.3.sd bio.3.flag bio.4 bio.4.sd bio.4.flag bio.5
-## 1          0    91 0.8253666          0   225 35.88073          0   298
-## 2          0    78 0.5577224          0   556 17.45375          0   318
-## 3          0    88 0.7206669          0   286 17.29709          0   306
-## 4          0    65 0.8617907          0   527 24.95788          0   315
-## 5          0    66 0.9463853          0   542 15.30495          0   312
-## 6          0    61 0.6087224          0   650 19.00537          0   316
-##    bio.5.sd bio.5.flag bio.6  bio.6.sd bio.6.flag bio.7  bio.7.sd bio.7.flag
-## 1 11.338169          0   215 11.017571          0    83 0.8677877          0
-## 2 15.840370          0   220 16.189716          0    98 0.9376991          0
-## 3 17.277027          0   200 18.674884          0   106 1.5568383          0
-## 4  4.721765          0   240  5.039029          0    75 0.7958608          0
-## 5  2.304653          0   225  2.186884          0    87 1.2054883          0
-## 6  1.819617          0   222  1.840626          0    94 0.7851057          0
-##   bio.8  bio.8.sd bio.8.flag bio.9  bio.9.sd bio.9.flag bio.10 bio.10.sd
-## 1   255 10.132403          0   256 11.334115          0    258 11.245495
-## 2   261 16.339786          0   262 14.346356          0    273 15.657204
-## 3   250 17.881793          0   252 18.143382          0    257 18.043948
-## 4   267  4.792422          0   272  4.670652          0    274  4.886500
-## 5   265  2.099452          0   259  2.098054          0    269  2.314453
-## 6   266  1.862784          0   260  1.736505          0    275  1.915191
-##   bio.10.flag bio.11 bio.11.sd bio.11.flag bio.12 bio.12.sd bio.12.flag bio.13
-## 1           0    252 10.089801           0   4144 154.92718           0    435
-## 2           0    260 16.239833           0   1866  70.37583           0    264
-## 3           0    250 18.029504           0   2843 172.89255           0    351
-## 4           0    262  4.504745           0   2305  10.20068           0    270
-## 5           0    257  2.158468           0   2800  25.81353           0    428
-## 6           0    259  1.689306           0   3064  21.18451           0    520
-##   bio.13.sd bio.13.flag bio.14  bio.14.sd bio.14.flag bio.15 bio.15.sd
-## 1 17.985835           0    254  9.3125005           0     15 0.6628906
-## 2 18.192571           0     15  1.2591685           0     62 1.3910255
-## 3 24.649937           0    130 18.8411539           0     30 2.4307981
-## 4  1.530787           0     75  2.1026466           0     36 0.5279451
-## 5  9.409955           0     26  0.6382469           0     61 0.9054234
-## 6  8.475629           0     10  1.3847190           0     75 1.1687130
-##   bio.15.flag bio.16 bio.16.sd bio.16.flag bio.17  bio.17.sd bio.17.flag bio.18
-## 1           0   1245  55.55414           0    865 40.0671869           0    968
-## 2           0    778  50.54219           0     71  5.1549998           0    234
-## 3           0    950  52.28756           0    413 52.7372146           0    603
-## 4           0    804   3.65598           0    268  5.3426753           0    430
-## 5           0   1105  22.78298           0    124  3.7962334           0    451
-## 6           0   1420  20.90974           0     79  0.9708095           0    938
-##    bio.18.sd bio.18.flag bio.19  bio.19.sd bio.19.flag      mnnpp      long
-## 1  30.974088           0    987  80.826647           0  2.1265272 114.00000
-## 2  54.362649           0    182 221.722502           0 -1.1066862 119.10599
-## 3  70.301199           0    950 194.744251           0  0.7358685 102.69000
-## 4  60.198876           0    680   6.539744           0 -1.1053956  93.77000
-## 5 193.975384           0    968 200.732679           0 -1.1240607  92.47000
-## 6   8.402256           0    188   7.097545           0  1.1730574  92.69158
-##       lati                                     ecoregion
-## 1  3.00000                Central Borneo montane forests
-## 2 10.05610                Palawan moist deciduous forest
-## 3 -3.04000    Central and Southern Sumatra moist forests
-## 4  7.00000 North Sumatra - Nicobar Islands moist forests
-## 5 10.70000                 Andaman Islands moist forests
-## 6 12.18399                 Andaman Islands moist forests
-##                                           mht.name koeppengei
-## 1 Tropical and subtropical moist broadleaf forests         Af
-## 2   Tropical and subtropical dry broadleaf forests         Aw
-## 3 Tropical and subtropical moist broadleaf forests         Af
-## 4 Tropical and subtropical moist broadleaf forests         Af
-## 5 Tropical and subtropical moist broadleaf forests         Am
-## 6 Tropical and subtropical moist broadleaf forests         Am
-##                  koepdesc iso      name.0              name.1 hasc.1
-## 1 Equatorial: fully humid MYS    Malaysia             Sarawak  MY.SK
-## 2  Equatorial: winter dry PHL Philippines             Palawan  PH.PL
-## 3 Equatorial: fully humid IDN   Indonesia    Sumatera Selatan  ID.SL
-## 4 Equatorial: fully humid IND       India Andaman and Nicobar  IN.AN
-## 5   Equatorial: monsoonal IND       India Andaman and Nicobar  IN.AN
-## 6   Equatorial: monsoonal IND       India Andaman and Nicobar  IN.AN
-##                 name.2   hasc.2       name.3 continent            region flag1
-## 1               Belaga MY.SK.BL         &lt;NA&gt;      Asia Southeastern Asia     0
-## 2 Puerto Princesa City PH.PL.PE     Langogan      Asia Southeastern Asia     0
-## 3           Musi Rawas ID.SL.MR         &lt;NA&gt;      Asia Southeastern Asia     0
-## 4      Nicobar Islands IN.AN.NI n.a. ( 2304)      Asia     Southern Asia     0
-## 5      Andaman Islands IN.AN.AN n.a. ( 2178)      Asia     Southern Asia     0
-## 6      Andaman Islands IN.AN.AN n.a. ( 2178)      Asia     Southern Asia     0
-##   noaddprop gelic petric vertic flag2 clayheavy siltyclay claylight
-## 1       100     0      0      0     0         0         0        30
-## 2       100     0      0      0     0         0         0        20
-## 3       100     0      0      0     0         0         0        30
-## 4       100     0      0      0     0         0         0        20
-## 5       100     0      0      0     0         0         0        20
-## 6       100     0      0      0     0         0         0         0
-##   siltyclayloam clayloam siltloam sandyclay loam sandyclayloam sandyloam
-## 1             0        0        0         0   50            20         0
-## 2             0        0        0         0   60            20         0
-## 3             0        0        0         0   50            20         0
-## 4             0        0        0         0   60            20         0
-## 5             0        0        0         0   60            20         0
-## 6             0        0        0         0   10             0         0
-##   loamysand sand flag3 issoil t_texture drainage awc_class t_gravel t_sand
-## 1         0    0     0      1       2.3      3.8       1.0        7     36
-## 2         0    0     0      1       2.2      3.8       2.0       10     37
-## 3         0    0     0      1       2.3      3.8       1.0        7     36
-## 4         0    0     0      1       2.2      3.8       1.0        7     38
-## 5         0    0     0      1       2.2      3.8       1.0        7     38
-## 6         0   90     0      1       1.1      5.6       2.8        4     80
-##   t_silt t_clay t_usda_tex_class t_ref_bulk_density t_bulk_density  t_oc
-## 1     29     28              7.4              1.353          1.316 1.276
-## 2     28     24              8.0              1.370          1.319 1.256
-## 3     29     28              7.4              1.353          1.316 1.276
-## 4     29     26              8.0              1.372          1.268 1.447
-## 5     29     26              8.0              1.372          1.268 1.447
-## 6     10      6             12.6              1.694          1.375 0.485
-##   t_ph_h2o t_cec_clay t_cec_soil t_bs t_teb t_caco3 t_caso4 t_esp t_ece
-## 1     5.03       20.9       10.6 41.3  5.43    0.01       0   1.1   0.1
-## 2     5.37       24.1       10.8 51.6  6.34    0.78       0   1.6   0.1
-## 3     5.03       20.9       10.6 41.3  5.43    0.01       0   1.1   0.1
-## 4     4.97       24.8       11.2 37.3  3.66    0.00       0   1.9   0.1
-## 5     4.97       24.8       11.2 37.3  3.66    0.00       0   1.9   0.1
-## 6     5.97       26.7        3.8 76.7  3.01    0.00       0   2.8   0.1
-##   s_gravel s_sand s_silt s_clay s_usda_tex_class s_ref_bulk_density
-## 1        9     32     26     34              5.2              1.316
-## 2       11     32     24     33              4.2              1.057
-## 3        9     32     26     34              5.2              1.316
-## 4       13     36     24     27              7.4              1.354
-## 5       13     36     24     27              7.4              1.354
-## 6        4     80      9      7             12.6              1.662
-##   s_bulk_density  s_oc s_ph_h2o s_cec_clay s_cec_soil s_bs s_teb s_caco3
-## 1          1.364 0.520     5.21       20.9        9.7 33.5  4.27    0.05
-## 2          1.096 0.391     4.00       15.7        6.3 22.5  2.29    0.00
-## 3          1.364 0.520     5.21       20.9        9.7 33.5  4.27    0.05
-## 4          1.330 0.570     5.04       20.0        8.1 38.0  3.06    0.00
-## 5          1.330 0.570     5.04       20.0        8.1 38.0  3.06    0.00
-## 6          1.528 0.235     5.77       28.0        2.5 75.5  2.44    0.00
-##   s_caso4 s_esp s_ece su_symbol  su_value sq1 sq2 sq3 sq4 sq5 sq6 sq7 dicgsh1a
-## 1       0   1.2  0.10        AC  Acrisols   3   2   1   1   1   1   1    -91.5
-## 2       0   1.0  0.08        AC  Acrisols   2   2   2   1   1   1   2     -6.5
-## 3       0   1.2  0.10        AC  Acrisols   2   2   1   1   1   1   1    -79.5
-## 4       0   1.9  0.10        CM Cambisols   3   2   1   1   1   1   1     -4.5
-## 5       0   1.9  0.10        CM Cambisols   3   2   1   1   1   1   1     -9.5
-## 6       0   4.6  0.10        AR Arenosols   0   0   0   0   0   0   0     -3.0
-##   dicgsh1a.flag etmnts2a etmnts2a.flag g12igb3a g12igb3a.flag twisre3a
-## 1             0    14165             0        2             0       96
-## 2             0    15972             0        2             0       79
-## 3             0    14616             0        2             0       96
-## 4             0    13095             0        2             0      108
-## 5             0    15055             0        2             0      108
-## 6             0    15133             0        2             0      118
-##   twisre3a.flag l3pobi3b l3pobi3b.flag    l3pobi3b.navn opisre2a opisre2a.flag
-## 1             0        6             0  rough low hills     1542             0
-## 2             0        6             0  rough low hills     1459             0
-## 3             0        6             0  rough low hills     1523             0
-## 4             0        6             0  rough low hills     1564             0
-## 5             0        7             0 smooth low hills     1561             0
-## 6             0        7             0 smooth low hills     1563             0
-##   geaisg3a geaisg3a.flag     geaisg3a.navn glcjrc3a glcjrc3a.flag
-## 1       50             0         Paleogene        1             0
-## 2       89             0 Triassic, Permian        9             0
-## 3        9             0          Cenozoic        1             0
-## 4       91             0           Unknown        1             0
-## 5       91             0           Unknown        1             0
-## 6       91             0           Unknown        1             0
-##                                   glcjrc3a.navn inmsre3a inmsre3a.flag inssre2a
-## 1                                       No data       34             0 20.97723
-## 2 Mosaic: Tree Cover / Other natural vegetation       29             0 20.59463
-## 3                                       No data       36             0 20.55084
-## 4                                       No data       33             0 20.74088
-## 5                                       No data       33             0 20.69281
-## 6                                       No data       33             0 20.84849
-##   inssre2a.flag evmmod2a evmmod2a.flag lammod3a lammod3a.flag anntotprecip
-## 1             0     5291             0       47             0            9
-## 2             0     6403             0       43             0            4
-## 3             0     4993             0       34             0            6
-## 4             0     5928             0       31             0            6
-## 5             0     5497             0       35             0            7
-## 6             0     5012             0       40             0            8
-##   anntotprecip.flag avgannrh avgannrh.flag avgannrunoff avgannrunoff.flag
-## 1                 0       88             0         2346                 0
-## 2                 0       83             0          470                 0
-## 3                 0       80             0         1397                 0
-## 4                 0       76             0          576                 6
-## 5                 0       77             0          576                 6
-## 6                 0       78             0         1498                 5
-##   evapotrans evapotrans.flag  gdd gdd.flag   npp npp.flag pevapotrans
-## 1   125.8393               0 7304        0 1.156        0    125.8507
-## 2   114.3392               0 7842        0 0.878        6    149.8783
-## 3   133.6739               0 7421        0 1.139        0    137.2175
-## 4    50.5863               6 8100        0 0.757        6     50.5943
-## 5    50.5863               6 8024        0 0.370        6     50.5943
-## 6   112.9580               0 7850        0 0.323        6    141.3507
-##   pevapotrans.flag potentialveg potentialveg.flag
-## 1                0            1                 0
-## 2                0            1                 0
-## 3                0            9                 0
-## 4                6            1                 6
-## 5                6            1                 6
-## 6                0            1                 6
-##                    potentialveg.navn snowdepth snowdepth.flag soilmoisture
-## 1 Tropical Evergreen Forest/Woodland   0.00000        0.00000     148.8498
-## 2 Tropical Evergreen Forest/Woodland   0.00000        0.00000      73.2608
-## 3                            Savanna   0.00000        0.00000     127.4715
-## 4 Tropical Evergreen Forest/Woodland   0.57334      999.00000      24.3462
-## 5 Tropical Evergreen Forest/Woodland   0.02820        6.30103      24.3462
-## 6 Tropical Evergreen Forest/Woodland   0.00000        0.00000      94.9033
-##   soilmoisture.flag  suit suit.flag eaid lrbid sccsid wnaiid xcid  awc society
-## 1                 0 0.252         0 1243     1     NA     NA  106 &lt;NA&gt;   Punan
-## 2                 0 0.252         6   NA     2     NA     NA   NA &lt;NA&gt;   Batek
-## 3                 0 0.284         0 1114     3     NA     NA  107 I02b    Kubu
-## 4                 6 0.240         6   NA     4     NA     NA   NA &lt;NA&gt; Shompen
-## 5                 6 0.238         6   NA     5     NA     NA   NA &lt;NA&gt;    Onge
-## 6                 0 0.234         6   NA     6     NA     NA   NA &lt;NA&gt;   Jarwa
-##   dxid
-## 1    1
-## 2    2
-## 3    3
-## 4    4
-## 5    5
-## 6    6</code></pre>
-<pre class="r"><code>length(dat) #There are 507 data points. </code></pre>
+
+#not showing what the data looks like because the data set is GINORMOUS and even doing head() takes up so much space
+
+length(dat) #There are 507 data points. </code></pre>
 <pre><code>## [1] 507</code></pre>
 <pre class="r"><code># But this means that there are multiple columns of the same group.  
 # Does this matter for our analysis? Yes, because we will be using the geometric mean to summarize the data, rather than arithmetic mean, we must make sure that are sample sizes and values are correct. But let&#39;s address that problem separately for each Horton Order
@@ -907,10 +447,9 @@ family &lt;- dat$famsz
 family &lt;- na.omit(family) 
 length(family) # 136, there are some non unique values</code></pre>
 <pre><code>## [1] 136</code></pre>
-<pre class="r"><code>family &lt;- unique(family) 
-length(family) #Now, We are getting the same n=102 which is not the same as that of table 1 of Hamilton et al., 2007, but we will proceed with this nonetheless.</code></pre>
-<pre><code>## [1] 102</code></pre>
-<pre class="r"><code>all_groups_dat &lt;- list(family,gr1,gr2,gr3,population) #a list comprising of all the required data.frames</code></pre>
+<pre class="r"><code> #Now, We are getting the same n=102 which is not the same as that of table 1 of Hamilton et al., 2007, but we will proceed with this nonetheless.
+
+all_groups_dat &lt;- list(family,gr1,gr2,gr3,population) #a list comprising of all the required data.frames</code></pre>
 <pre class="r"><code>freq_tlpop &lt;- dat$tlpop
 
 numg3 &lt;- na.omit(dat$numg3)
@@ -921,7 +460,7 @@ numg1 &lt;- na.omit(dat$numg1)
 
 numfam &lt;- na.omit(dat$numfam)
 
- #some of the sample sizes in Table 1.2 are different from what we get from these data frames. There is no information in the documentation or Hmailton., 2007 about if and which values were removed, but it is likely that some values were removed. We will proceed with sample sizes that we have for now.
+ #some of the sample sizes in Table 1.2 are different from what we get from these data frames. There is no information in the documentation or Hamilton., 2007 about if and which values were removed, but it is likely that some values were removed. We will proceed with sample sizes that we have for now.
 
 all_groups_freq &lt;- list(freq_tlpop,numfam,numg1,numg2,numg3) #a list comprising of all the required data.frames for table 1.2</code></pre>
 </div>
@@ -930,9 +469,9 @@ all_groups_freq &lt;- list(freq_tlpop,numfam,numg1,numg2,numg3) #a list comprisi
 <pre class="r"><code>#creating an empty table where values can be input
 table1.1 &lt;- data.frame(matrix(NA, nrow = 6, ncol = 8))
 colnames(table1.1) &lt;- c(&quot;organisational level group size (g)&quot;, &quot;Horton order (ω)&quot;, &quot;sample size (n)&quot;, &quot;ln mean &lt;ln g&gt;&quot;, &quot;s.d&quot;, &quot;geometric mean (g-bar)&quot;, &quot;95% CI - Lower&quot;, &quot;95% CI - upper&quot;)
-table1.1[,1] &lt;- c(&quot;individual&quot;, &quot;family&quot;,&quot;dispersed group&quot;,&quot;aggregated group&quot;,&quot;periodic aggregation&quot;,&quot;poopulation size&quot;)
+table1.1[,1] &lt;- c(&quot;individual&quot;, &quot;family&quot;,&quot;dispersed group&quot;,&quot;aggregated group&quot;,&quot;periodic aggregation&quot;,&quot;population size&quot;)
 table1.1[,2] &lt;- 1:6
-table1.1[,3] &lt;- c(&quot;NA&quot;, 102,227,297,216,339)
+table1.1[,3] &lt;- c(&quot;NA&quot;, 136,227,297,216,339)
 
 #Okay, now we can start filling in this table with some summary statistics!
 
@@ -954,20 +493,21 @@ for (i in 1:5) {
 table1.1 #Here, we see that the values are a little bit different that the original paper. But they don&#39;t seem different enough to warrant concern, yet. </code></pre>
 <pre><code>##   organisational level group size (g) Horton order (ω) sample size (n)
 ## 1                          individual                1              NA
-## 2                              family                2             102
+## 2                              family                2             136
 ## 3                     dispersed group                3             227
 ## 4                    aggregated group                4             297
 ## 5                periodic aggregation                5             216
-## 6                    poopulation size                6             339
+## 6                     population size                6             339
 ##   ln mean &lt;ln g&gt;       s.d geometric mean (g-bar) 95% CI - Lower 95% CI - upper
 ## 1       0.000000        NA               1.000000             NA             NA
-## 2       1.510078 0.2433328               4.527085             NA             NA
+## 2       1.497908 0.2266828               4.472322             NA             NA
 ## 3       2.749100 0.4611244              15.628552             NA             NA
 ## 4       3.989574 0.7136384              54.031841             NA             NA
 ## 5       5.105074 0.6559420             164.856221             NA             NA
 ## 6       6.729334 1.2517243             836.590075             NA             NA</code></pre>
 <pre class="r"><code>#Bootstrapping For CIs (ln_mean) 
 for (i in 1:5) {
+  set.seed(1)
   ln_dat &lt;- log(all_groups_dat[[i]]) #We will bootstrap with this data 
   ln_mean &lt;- mean(ln_dat)
   boots_ln_dat = ln_dat[sample(1:length(ln_dat), 1000, replace = TRUE)] #resampling with replacement. Creating 1000 samples
@@ -990,18 +530,18 @@ for (i in 1:5) {
 table1.1 #The CI values actually look quite different from the values in the published table</code></pre>
 <pre><code>##   organisational level group size (g) Horton order (ω) sample size (n)
 ## 1                          individual                1              NA
-## 2                              family                2             102
+## 2                              family                2             136
 ## 3                     dispersed group                3             227
 ## 4                    aggregated group                4             297
 ## 5                periodic aggregation                5             216
-## 6                    poopulation size                6             339
+## 6                     population size                6             339
 ##   ln mean &lt;ln g&gt;       s.d geometric mean (g-bar) 95% CI - Lower 95% CI - upper
 ## 1       0.000000        NA               1.000000             NA             NA
-## 2       1.510078 0.2433328               4.527085       4.041295       4.994311
-## 3       2.749100 0.4611244              15.628552      14.810846      16.556635
-## 4       3.989574 0.7136384              54.031841      53.152576      55.986736
-## 5       5.105074 0.6559420             164.856221     160.164601     162.707524
-## 6       6.729334 1.2517243             836.590075     853.025766     857.945701</code></pre>
+## 2       1.497908 0.2266828               4.472322       4.049207       4.925587
+## 3       2.749100 0.4611244              15.628552      14.549443      16.330475
+## 4       3.989574 0.7136384              54.031841      53.419674      56.183082
+## 5       5.105074 0.6559420             164.856221     155.613555     158.097368
+## 6       6.729334 1.2517243             836.590075     890.821012     895.716542</code></pre>
 <pre class="r"><code>#creating an empty table where values can be input
 table1.2 &lt;- data.frame(matrix(NA, nrow = 6, ncol = 8))
 colnames(table1.2) &lt;- c(&quot;Frequency, N(g)&quot;, &quot;Horton order (ω)&quot;, &quot;sample size (n)&quot;, &quot;ln mean &lt;ln N(g)&gt;&quot;, &quot;s.d&quot;, &quot;geometric mean (N(g)-bar)&quot;, &quot;95% CI - Lower&quot;, &quot;95% CI - upper&quot;)
@@ -1043,6 +583,7 @@ table1.2 #Here, we see that the values are a little bit different that the origi
 ## 6       NA                  1.000000             NA             NA</code></pre>
 <pre class="r"><code>#Bootstrapping For CIs (ln_mean) 
 for (i in 1:5) {
+  set.seed(1)
   ln_dat &lt;- log(all_groups_freq[[i]]) #We will bootstrap with this data 
   ln_mean &lt;- mean(ln_dat)
   boots_ln_dat = ln_dat[sample(1:length(ln_dat), 1000, replace = TRUE)] #resampling with replacement. Creating 1000 samples
@@ -1071,15 +612,232 @@ table1.2 #The CI values actually look quite different from the values in the pub
 ## 5 periodic aggregation                5             128          1.527458
 ## 6     poopulation size                6              NA          0.000000
 ##        s.d geometric mean (N(g)-bar) 95% CI - Lower 95% CI - upper
-## 1 1.251724                836.590075     848.203253     853.164254
-## 2 1.208410                139.970884     130.437687     135.204781
-## 3 1.147000                 43.511374      40.987427      45.386634
-## 4 1.139904                 15.187035      14.016354      18.496051
-## 5 1.064040                  4.606452       2.162042       6.278123
+## 1 1.251724                836.590075     890.821012     895.716542
+## 2 1.208410                139.970884     136.668812     141.271324
+## 3 1.147000                 43.511374      41.801633      46.342593
+## 4 1.139904                 15.187035      13.465560      18.093026
+## 5 1.064040                  4.606452       2.670988       6.922304
 ## 6       NA                  1.000000             NA             NA</code></pre>
+</div>
+<div id="plotting-figure-1-group-sizes-as-a-function-of-horton-order" class="section level3">
+<h3>Plotting Figure 1: Group sizes as a function of Horton order</h3>
+<pre class="r"><code>library(ggplot2)</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.3.1</code></pre>
+<pre class="r"><code>family &lt;- as.data.frame(family)
+colnames(family) &lt;- &quot;group_size&quot;
+fig1_df &lt;- family
+gr1 &lt;- as.data.frame(gr1)
+colnames(gr1) &lt;- &quot;group_size&quot;
+fig1_df &lt;- rbind(fig1_df,gr1)
+gr2 &lt;- as.data.frame(gr2)
+colnames(gr2) &lt;- &quot;group_size&quot;
+fig1_df &lt;- rbind(fig1_df,gr2)
+gr3 &lt;- as.data.frame(gr3)
+colnames(gr3) &lt;- &quot;group_size&quot;
+fig1_df &lt;- rbind(fig1_df,gr3)
+population &lt;- as.data.frame(population)
+colnames(population) &lt;- &quot;group_size&quot;
+fig1_df &lt;- rbind(fig1_df,population)
+
+fig1_df$Horton_Order &lt;- NA
+fig1_df$Horton_Order[1:102] &lt;- 2
+fig1_df$Horton_Order[103:329] &lt;- 3
+fig1_df$Horton_Order[330:626] &lt;- 4
+fig1_df$Horton_Order[627:842] &lt;- 5
+fig1_df$Horton_Order[843:1181] &lt;- 6
+ho1&lt;- data.frame(1,1)
+colnames(ho1) &lt;- c(&quot;group_size&quot;,&quot;Horton_Order&quot;)
+fig1_df&lt;- rbind(fig1_df,ho1)
+unique(fig1_df$Horton_Order)</code></pre>
+<pre><code>## [1]  2  3  4  5  6 NA  1</code></pre>
+<pre class="r"><code>fig1 &lt;- ggplot(fig1_df,aes(Horton_Order,group_size, by = factor(Horton_Order)))+ geom_boxplot() + coord_trans(y = &quot;log10&quot;)+ stat_boxplot()
+fig1             </code></pre>
+<pre><code>## Warning: Removed 34 rows containing missing values (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 34 rows containing missing values (`stat_boxplot()`).</code></pre>
+<p><img src="data:image/png;base64,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" width="672" /></p>
+</div>
+<div id="table-2-branching-ratios-and-mean-family-sizes-by-continent" class="section level3">
+<h3>Table 2: Branching Ratios and Mean Family Sizes by Continent</h3>
+<pre class="r"><code>#Making new data frames for each continent
+data_continent &lt;- cbind(dat$continent,dat$famsz)
+asia &lt;- data_continent[data_continent[,1] == &quot;Asia&quot;,]
+africa &lt;- data_continent[data_continent[,1] == &quot;Africa&quot;,]
+n_am &lt;- data_continent[data_continent[,1] == &quot;North America&quot;,]
+australia &lt;- data_continent[data_continent[,1] == &quot;Australia&quot;,]
+s_am &lt;- data_continent[data_continent[,1] == &quot;South America&quot;,]
+
+#combining all data frames by continents into a list that can be indexed and used in a function to calculate stats 
+continents_dat &lt;- list(data_continent,asia,africa,n_am,australia,s_am)</code></pre>
+<pre class="r"><code>#skeletons of table 2
+table2 &lt;- data.frame(matrix(NA, nrow = 6, ncol = 9))
+colnames(table2) &lt;- c(&quot;sample&quot;, &quot;sample size (n)&quot;, &quot;Branching Ratios (B-bar)&quot;, &quot;95% CI - Lower&quot;, &quot;95% CI - upper&quot;, &quot;sample size (n)&quot;, &quot;Family Size (F-bar)&quot;,&quot;95% CI - Lower&quot;, &quot;95% CI - upper&quot;)
+table2[,1] &lt;- c(&quot;All data&quot;, &quot;Asia&quot;,&quot;Africa&quot;,&quot;North America&quot;,&quot;Australia&quot;,&quot;South America&quot;)
+
+for (i in 1:6) {
+  sample_size_fam &lt;- length(na.omit(continents_dat[[i]][,2]))
+  table2[i,6] &lt;- sample_size_fam
+  
+  set.seed(1)
+  ln_dat &lt;- log(as.numeric(na.omit(continents_dat[[i]][,2]))) #We will bootstrap with this data in a few steps and use it to calculate the geometric mean
+  ln_mean &lt;- mean(ln_dat)
+  geom_mean &lt;- exp(ln_mean)
+  table2[i,7] &lt;- geom_mean #adding geometric means to column F-bar
+  
+  #bootstrapping for CIs
+  boots_ln_dat = ln_dat[sample(1:length(ln_dat), 1000, replace = TRUE)] #resampling with replacement. Creating 1000 samples
+  mean_boots &lt;- exp(mean(boots_ln_dat)) #geometric mean for bootsrapped values
+  sd_boots &lt;- sd(boots_ln_dat) #sd for bootsrapped values
+
+  #lower - 95% CI
+  lower_CI &lt;- mean_boots - qnorm(1 - 0.05/2) * sd_boots #lower CI
+  lower_CI
+  table2[i,8] &lt;- lower_CI
+  
+  #upper - 95% CI
+  upper_CI &lt;- mean_boots + qnorm(1 - 0.05/2) * sd_boots #upper CI
+  upper_CI
+  table2[i,9] &lt;- upper_CI
+}
+
+table2</code></pre>
+<pre><code>##          sample sample size (n) Branching Ratios (B-bar) 95% CI - Lower
+## 1      All data              NA                       NA             NA
+## 2          Asia              NA                       NA             NA
+## 3        Africa              NA                       NA             NA
+## 4 North America              NA                       NA             NA
+## 5     Australia              NA                       NA             NA
+## 6 South America              NA                       NA             NA
+##   95% CI - upper sample size (n) Family Size (F-bar) 95% CI - Lower
+## 1             NA             136            4.472322       4.049207
+## 2             NA              20            3.914412       3.684964
+## 3             NA               9            4.369591       4.132454
+## 4             NA              69            4.196642       3.847318
+## 5             NA              24            6.154716       5.861359
+## 6             NA              14            4.346514       3.941722
+##   95% CI - upper
+## 1       4.925587
+## 2       4.127475
+## 3       4.662099
+## 4       4.571950
+## 5       6.465074
+## 6       4.643851</code></pre>
+<p>Comments so far:</p>
+<pre class="r"><code>#Because branching rations need information about the frequencies of family size (ω = 2), and for Horton order ω-1 = 1, which is frequency of individuals, let us add that data to our &quot;data by continent&quot; data frame 
+
+data_continent &lt;- cbind(data_continent,dat$tlpop)
+data_continent &lt;- cbind(data_continent,dat$numfam)
+data_continent &lt;- cbind(data_continent,dat$numg1)
+data_continent &lt;- cbind(data_continent,dat$numg2)
+data_continent &lt;- cbind(data_continent,dat$numg3)
+
+#re-making data frames for each continent, but now containing the new required information
+asia &lt;- data_continent[data_continent[,1] == &quot;Asia&quot;,]
+africa &lt;- data_continent[data_continent[,1] == &quot;Africa&quot;,]
+n_am &lt;- data_continent[data_continent[,1] == &quot;North America&quot;,]
+australia &lt;- data_continent[data_continent[,1] == &quot;Australia&quot;,]
+s_am &lt;- data_continent[data_continent[,1] == &quot;South America&quot;,]
+
+#combining all data frames by continents into a list that can be indexed and used in a function to calculate branching ratios and other stats 
+continents_dat &lt;- list(data_continent,asia,africa,n_am,australia,s_am)</code></pre>
+</div>
+<div id="figure-2-horton-plots-per-continent" class="section level3">
+<h3>Figure 2: Horton Plots Per Continent</h3>
+<p>In order to fill the first four columns of Table 2, it will be useful
+to have the values for branching ratios. The easies way to get branching
+ratios is to run linear regressions for ln frequency of group size as a
+function of the Horton order. Once we get the slope ( λ) from these
+linear regressions, we can calculate branching ratios with this
+formula:</p>
+<p>λ = lnB</p>
+<pre class="r"><code># In order to run a linear regression for &lt;ln N(g)&gt; vs Horton Order, we need to calculate &lt;ln N(g)&gt; values for each Horton Order in each continent. Let&#39;s create a new data frames per continent to hold these values. 
+
+#starting with all data
+linear_reg_dat &lt;- data.frame(matrix(NA, nrow = 6, ncol = 3))
+colnames(linear_reg_dat) &lt;- c(&quot;Horton order (ω)&quot;, &quot;ln mean &lt;ln N(g)&gt;&quot;,&quot;Continent&quot;)
+linear_reg_dat[,1] &lt;- 1:6
+linear_reg_dat[,3] &lt;- as.factor(&quot;All&quot;)
+
+for (i in 3:7) {
+  ln_dat &lt;- log(as.numeric(na.omit(data_continent[,i])))
+  ln_mean &lt;- mean(ln_dat)
+  linear_reg_dat[i-2,2] &lt;- ln_mean
+  linear_reg_dat[6,2] &lt;- 0
+}
+
+#For asia
+linear_reg_asia &lt;- data.frame(matrix(NA, nrow = 6, ncol = 2))
+colnames(linear_reg_asia) &lt;- c(&quot;Horton order (ω)&quot;, &quot;ln mean &lt;ln N(g)&gt;&quot;)
+linear_reg_asia[,1] &lt;- 1:6
+
+for (i in 3:7) { 
+  ln_dat &lt;- log(as.numeric(na.omit(asia[,i])))
+  ln_mean &lt;- mean(ln_dat)
+  linear_reg_asia[i-2,2] &lt;- ln_mean
+  linear_reg_asia[6,2] &lt;- 0
+}
+
+#repeating the same for africa
+linear_reg_africa &lt;- data.frame(matrix(NA, nrow = 6, ncol = 2))
+colnames(linear_reg_africa) &lt;- c(&quot;Horton order (ω)&quot;, &quot;ln mean &lt;ln N(g)&gt;&quot;)
+linear_reg_africa[,1] &lt;- 1:6
+
+for (i in 3:7) {
+  ln_dat &lt;- log(as.numeric(na.omit(africa[,i])))
+  ln_mean &lt;- mean(ln_dat)
+  linear_reg_africa[i-2,2] &lt;- ln_mean
+  linear_reg_africa[6,2] &lt;- 0
+}
+
+#repeating the same for North America
+linear_reg_nam &lt;- data.frame(matrix(NA, nrow = 6, ncol = 2))
+colnames(linear_reg_nam) &lt;- c(&quot;Horton order (ω)&quot;, &quot;ln mean &lt;ln N(g)&gt;&quot;)
+linear_reg_nam[,1] &lt;- 1:6
+
+for (i in 3:7) {
+  ln_dat &lt;- log(as.numeric(na.omit(n_am[,i])))
+  ln_mean &lt;- mean(ln_dat)
+  linear_reg_nam[i-2,2] &lt;- ln_mean
+  linear_reg_nam[6,2] &lt;- 0
+}
+
+#repeating the same for Australia
+linear_reg_aus &lt;- data.frame(matrix(NA, nrow = 6, ncol = 2))
+colnames(linear_reg_aus) &lt;- c(&quot;Horton order (ω)&quot;, &quot;ln mean &lt;ln N(g)&gt;&quot;)
+linear_reg_aus[,1] &lt;- 1:6
+
+for (i in 3:7) {
+  ln_dat &lt;- log(as.numeric(na.omit(australia[,i])))
+  ln_mean &lt;- mean(ln_dat)
+  linear_reg_aus[i-2,2] &lt;- ln_mean
+  linear_reg_aus[6,2] &lt;- 0
+}
+
+#repeating the same for South America
+linear_reg_sam &lt;- data.frame(matrix(NA, nrow = 6, ncol = 2))
+colnames(linear_reg_sam) &lt;- c(&quot;Horton order (ω)&quot;, &quot;ln mean &lt;ln N(g)&gt;&quot;)
+linear_reg_sam[,1] &lt;- 1:6
+
+for (i in 3:7) {
+  ln_dat &lt;- log(as.numeric(na.omit(s_am[,i])))
+  ln_mean &lt;- mean(ln_dat)
+  linear_reg_sam[i-2,2] &lt;- ln_mean
+  linear_reg_sam[6,2] &lt;- 0
+}</code></pre>
+<div id="introducing-a-new-concept-branching-ratios" class="section level4">
+<h4>Introducing a new concept: Branching Ratios:</h4>
+<pre class="r"><code>#filling up the first four columns of table 2
+for (i in 1:6) {
+  
+  sample_size_fam &lt;- length(na.omit(continents_dat[[i]][,3]))
+  table2[i,2] &lt;- sample_size_fam
+}</code></pre>
+</div>
 </div>
 <div id="assumptions" class="section level3">
 <h3>Assumptions:</h3>
+</div>
+<div id="challenges-faced" class="section level3">
+<h3>Challenges Faced:</h3>
 </div>
 </div>
 </div>

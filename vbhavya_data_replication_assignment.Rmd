@@ -48,7 +48,8 @@ Let us load in the data, clean the data (if required) and check our sample sizes
 library(curl)
 
 dat <- read.csv(curl("https://raw.githubusercontent.com/bhavya-dv/vbhavya-data-replication-assignment/main/LRB.csv"))
-head(dat) #loading in the Binford dataset
+
+#not showing what the data looks like because the data set is GINORMOUS and even doing head() takes up so much space
 
 length(dat) #There are 507 data points. 
 
@@ -79,8 +80,7 @@ length(gr1) #We are getting the same N as that in table 1 of Hamilton et al., 20
 family <- dat$famsz
 family <- na.omit(family) 
 length(family) # 136, there are some non unique values
-family <- unique(family) 
-length(family) #Now, We are getting the same n=102 which is not the same as that of table 1 of Hamilton et al., 2007, but we will proceed with this nonetheless.
+ #Now, We are getting the same n=102 which is not the same as that of table 1 of Hamilton et al., 2007, but we will proceed with this nonetheless.
 
 all_groups_dat <- list(family,gr1,gr2,gr3,population) #a list comprising of all the required data.frames
 ```
@@ -95,7 +95,7 @@ numg1 <- na.omit(dat$numg1)
 
 numfam <- na.omit(dat$numfam)
 
- #some of the sample sizes in Table 1.2 are different from what we get from these data frames. There is no information in the documentation or Hmailton., 2007 about if and which values were removed, but it is likely that some values were removed. We will proceed with sample sizes that we have for now.
+ #some of the sample sizes in Table 1.2 are different from what we get from these data frames. There is no information in the documentation or Hamilton., 2007 about if and which values were removed, but it is likely that some values were removed. We will proceed with sample sizes that we have for now.
 
 all_groups_freq <- list(freq_tlpop,numfam,numg1,numg2,numg3) #a list comprising of all the required data.frames for table 1.2
 ```
@@ -107,9 +107,9 @@ all_groups_freq <- list(freq_tlpop,numfam,numg1,numg2,numg3) #a list comprising 
 #creating an empty table where values can be input
 table1.1 <- data.frame(matrix(NA, nrow = 6, ncol = 8))
 colnames(table1.1) <- c("organisational level group size (g)", "Horton order (ω)", "sample size (n)", "ln mean <ln g>", "s.d", "geometric mean (g-bar)", "95% CI - Lower", "95% CI - upper")
-table1.1[,1] <- c("individual", "family","dispersed group","aggregated group","periodic aggregation","poopulation size")
+table1.1[,1] <- c("individual", "family","dispersed group","aggregated group","periodic aggregation","population size")
 table1.1[,2] <- 1:6
-table1.1[,3] <- c("NA", 102,227,297,216,339)
+table1.1[,3] <- c("NA", 136,227,297,216,339)
 
 #Okay, now we can start filling in this table with some summary statistics!
 
@@ -132,6 +132,7 @@ table1.1 #Here, we see that the values are a little bit different that the origi
 
 #Bootstrapping For CIs (ln_mean) 
 for (i in 1:5) {
+  set.seed(1)
   ln_dat <- log(all_groups_dat[[i]]) #We will bootstrap with this data 
   ln_mean <- mean(ln_dat)
   boots_ln_dat = ln_dat[sample(1:length(ln_dat), 1000, replace = TRUE)] #resampling with replacement. Creating 1000 samples
@@ -183,6 +184,7 @@ table1.2 #Here, we see that the values are a little bit different that the origi
 
 #Bootstrapping For CIs (ln_mean) 
 for (i in 1:5) {
+  set.seed(1)
   ln_dat <- log(all_groups_freq[[i]]) #We will bootstrap with this data 
   ln_mean <- mean(ln_dat)
   boots_ln_dat = ln_dat[sample(1:length(ln_dat), 1000, replace = TRUE)] #resampling with replacement. Creating 1000 samples
@@ -205,6 +207,256 @@ for (i in 1:5) {
 table1.2 #The CI values actually look quite different from the values in the published table, but that is to be expected if we bootstrap the values. 
 
 ```
+### Plotting Figure 1: Group sizes as a function of Horton order
+```{r fig1}
+library(ggplot2)
+family <- as.data.frame(family)
+colnames(family) <- "group_size"
+fig1_df <- family
+gr1 <- as.data.frame(gr1)
+colnames(gr1) <- "group_size"
+fig1_df <- rbind(fig1_df,gr1)
+gr2 <- as.data.frame(gr2)
+colnames(gr2) <- "group_size"
+fig1_df <- rbind(fig1_df,gr2)
+gr3 <- as.data.frame(gr3)
+colnames(gr3) <- "group_size"
+fig1_df <- rbind(fig1_df,gr3)
+population <- as.data.frame(population)
+colnames(population) <- "group_size"
+fig1_df <- rbind(fig1_df,population)
+
+fig1_df$Horton_Order <- NA
+fig1_df$Horton_Order[1:102] <- 2
+fig1_df$Horton_Order[103:329] <- 3
+fig1_df$Horton_Order[330:626] <- 4
+fig1_df$Horton_Order[627:842] <- 5
+fig1_df$Horton_Order[843:1181] <- 6
+ho1<- data.frame(1,1)
+colnames(ho1) <- c("group_size","Horton_Order")
+fig1_df<- rbind(fig1_df,ho1)
+unique(fig1_df$Horton_Order)
+
+
+fig1 <- ggplot(fig1_df,aes(Horton_Order,group_size, by = factor(Horton_Order)))+ geom_boxplot() + coord_trans(y = "log10")+ stat_boxplot()
+fig1             
+```
+
+### Table 2: Branching Ratios and Mean Family Sizes by Continent
+
+
+```{r by_continents}
+#Making new data frames for each continent
+data_continent <- cbind(dat$continent,dat$famsz)
+asia <- data_continent[data_continent[,1] == "Asia",]
+africa <- data_continent[data_continent[,1] == "Africa",]
+n_am <- data_continent[data_continent[,1] == "North America",]
+australia <- data_continent[data_continent[,1] == "Australia",]
+s_am <- data_continent[data_continent[,1] == "South America",]
+
+#combining all data frames by continents into a list that can be indexed and used in a function to calculate stats 
+continents_dat <- list(data_continent,asia,africa,n_am,australia,s_am)
+```
+
+
+```{r table2}
+#skeletons of table 2
+table2 <- data.frame(matrix(NA, nrow = 6, ncol = 9))
+colnames(table2) <- c("sample", "sample size (n)", "Branching Ratios (B-bar)", "95% CI - Lower", "95% CI - upper", "sample size (n)", "Family Size (F-bar)","95% CI - Lower", "95% CI - upper")
+table2[,1] <- c("All data", "Asia","Africa","North America","Australia","South America")
+
+for (i in 1:6) {
+  sample_size_fam <- length(na.omit(continents_dat[[i]][,2]))
+  table2[i,6] <- sample_size_fam
+  
+  set.seed(1)
+  ln_dat <- log(as.numeric(na.omit(continents_dat[[i]][,2]))) #We will bootstrap with this data in a few steps and use it to calculate the geometric mean
+  ln_mean <- mean(ln_dat)
+  geom_mean <- exp(ln_mean)
+  table2[i,7] <- geom_mean #adding geometric means to column F-bar
+  
+  #bootstrapping for CIs
+  boots_ln_dat = ln_dat[sample(1:length(ln_dat), 1000, replace = TRUE)] #resampling with replacement. Creating 1000 samples
+  mean_boots <- exp(mean(boots_ln_dat)) #geometric mean for bootsrapped values
+  sd_boots <- sd(boots_ln_dat) #sd for bootsrapped values
+
+  #lower - 95% CI
+  lower_CI <- mean_boots - qnorm(1 - 0.05/2) * sd_boots #lower CI
+  lower_CI
+  table2[i,8] <- lower_CI
+  
+  #upper - 95% CI
+  upper_CI <- mean_boots + qnorm(1 - 0.05/2) * sd_boots #upper CI
+  upper_CI
+  table2[i,9] <- upper_CI
+}
+
+table2
+```
+
+Comments so far: 
+
+```{r continents_dat}
+#Because branching rations need information about the frequencies of family size (ω = 2), and for Horton order ω-1 = 1, which is frequency of individuals, let us add that data to our "data by continent" data frame 
+
+data_continent <- cbind(data_continent,dat$tlpop)
+data_continent <- cbind(data_continent,dat$numfam)
+data_continent <- cbind(data_continent,dat$numg1)
+data_continent <- cbind(data_continent,dat$numg2)
+data_continent <- cbind(data_continent,dat$numg3)
+
+#re-making data frames for each continent, but now containing the new required information
+asia <- data_continent[data_continent[,1] == "Asia",]
+africa <- data_continent[data_continent[,1] == "Africa",]
+n_am <- data_continent[data_continent[,1] == "North America",]
+australia <- data_continent[data_continent[,1] == "Australia",]
+s_am <- data_continent[data_continent[,1] == "South America",]
+
+#combining all data frames by continents into a list that can be indexed and used in a function to calculate branching ratios and other stats 
+continents_dat <- list(data_continent,asia,africa,n_am,australia,s_am)
+```
+
+
+### Figure 2: Horton Plots Per Continent
+
+In order to fill the first four columns of Table 2, it will be useful to have the values for branching ratios. The easies way to get branching ratios is to run linear regressions for ln frequency of group size as a function of the Horton order. Once we get the slope ( λ) from these linear regressions, we can calculate branching ratios with this formula: 
+
+  λ = lnB
+  
+```{r linear-reg-dat}
+
+# In order to run a linear regression for <ln N(g)> vs Horton Order, we need to calculate <ln N(g)> values for each Horton Order in each continent. Let's create a new data frames per continent to hold these values. 
+
+#starting with all data
+linear_reg_dat <- data.frame(matrix(NA, nrow = 6, ncol = 3))
+colnames(linear_reg_dat) <- c("horton_order","ln_mean_freq","Continent")
+linear_reg_dat[,1] <- 1:6
+linear_reg_dat[,3] <- as.factor("All")
+
+for (i in 3:7) {
+  ln_dat <- log(as.numeric(na.omit(data_continent[,i])))
+  ln_mean <- mean(ln_dat)
+  linear_reg_dat[i-2,2] <- ln_mean
+  linear_reg_dat[6,2] <- 0
+}
+
+#For Asia
+linear_reg_asia <- data.frame(matrix(NA, nrow = 6, ncol = 3))
+colnames(linear_reg_asia) <- c("horton_order","ln_mean_freq","Continent")
+linear_reg_asia[,1] <- 1:6
+linear_reg_asia[,3] <- as.factor("Asia")
+
+for (i in 3:7) { 
+  ln_dat <- log(as.numeric(na.omit(asia[,i])))
+  ln_mean <- mean(ln_dat)
+  linear_reg_asia[i-2,2] <- ln_mean
+  linear_reg_asia[6,2] <- 0
+}
+
+linear_reg_dat1 <- rbind(linear_reg_dat,linear_reg_asia)
+
+#repeating the same for Africa
+linear_reg_africa <- data.frame(matrix(NA, nrow = 6, ncol = 3))
+colnames(linear_reg_africa) <- c("horton_order","ln_mean_freq","Continent")
+linear_reg_africa[,1] <- 1:6
+linear_reg_africa[,3] <- as.factor("Africa")
+
+for (i in 3:7) {
+  ln_dat <- log(as.numeric(na.omit(africa[,i])))
+  ln_mean <- mean(ln_dat)
+  linear_reg_africa[i-2,2] <- ln_mean
+  linear_reg_africa[6,2] <- 0
+}
+linear_reg_dat1 <- rbind(linear_reg_dat,linear_reg_africa)
+
+#repeating the same for North America
+linear_reg_nam <- data.frame(matrix(NA, nrow = 6, ncol = 3))
+colnames(linear_reg_nam) <- c("horton_order","ln_mean_freq","Continent")
+linear_reg_nam[,1] <- 1:6
+linear_reg_nam[,3] <- as.factor("North America")
+
+for (i in 3:7) {
+  ln_dat <- log(as.numeric(na.omit(n_am[,i])))
+  ln_mean <- mean(ln_dat)
+  linear_reg_nam[i-2,2] <- ln_mean
+  linear_reg_nam[6,2] <- 0
+}
+linear_reg_dat1 <- rbind(linear_reg_dat,linear_reg_nam)
+
+#repeating the same for Australia
+linear_reg_aus <- data.frame(matrix(NA, nrow = 6, ncol = 3))
+colnames(linear_reg_aus) <- c("horton_order","ln_mean_freq","Continent")
+linear_reg_aus[,1] <- 1:6
+linear_reg_aus[,3] <- as.factor("Australia")
+
+for (i in 3:7) {
+  ln_dat <- log(as.numeric(na.omit(australia[,i])))
+  ln_mean <- mean(ln_dat)
+  linear_reg_aus[i-2,2] <- ln_mean
+  linear_reg_aus[6,2] <- 0
+}
+
+linear_reg_dat1 <- rbind(linear_reg_dat,linear_reg_aus)
+
+#repeating the same for South America
+linear_reg_sam <- data.frame(matrix(NA, nrow = 6, ncol = 3))
+colnames(linear_reg_sam) <- c("horton_order","ln_mean_freq","Continent")
+linear_reg_sam[,1] <- 1:6
+linear_reg_sam[,3] <- as.factor("South America")
+
+for (i in 3:7) {
+  ln_dat <- log(as.numeric(na.omit(s_am[,i])))
+  ln_mean <- mean(ln_dat)
+  linear_reg_sam[i-2,2] <- ln_mean
+  linear_reg_sam[6,2] <- 0
+}
+
+linear_reg_dat1 <- rbind(linear_reg_dat,linear_reg_sam)
+
+```
+
+```{r linear_reg}
+
+#Runing linear regressions
+
+#For all continents
+linear_model <- lm(formula = ln_mean_freq ~ horton_order, data= linear_reg_dat)
+summary(linear_model) 
+# The equation obtained is Y = 7.77607 - 1.28403x, r-squared = 0.9934
+
+b_all<- exp(1.28) # since slope is λ, B = exp(slope)
+#let's also enter this in table 2 
+table2[1,3] <-b_all
+
+#For Asia
+linear_model <- lm(formula = ln_mean_freq ~ horton_order, data= linear_reg_asia)
+summary(linear_model) 
+# The equation obtained is Y = 7.35645 - 1.18977x, r-squared = 0.9893
+
+b_asia<- exp(1.18977) # since slope is λ, B = exp(slope)
+
+fig2 <- ggplot(linear_reg_dat1, aes(horton_order,ln_mean_freq)) + geom_point() +
+  facet_wrap(~ Continent, ncol=3)+
+  geom_errorbar(aes(ymin = ymin,ymax = ymax)) + #need to specify 1 sd
+  geom_smooth(method="lm")
+
+```
+
+
+#### Introducing a new concept: Branching Ratios:
+
+```{r table2_cont}
+
+
+#filling up the first four columns of table 2
+for (i in 1:6) {
+  
+  sample_size_fam <- length(na.omit(continents_dat[[i]][,3]))
+  table2[i,2] <- sample_size_fam
+}
+```
+
 
 ### Assumptions:
 
+### Challenges Faced: 
